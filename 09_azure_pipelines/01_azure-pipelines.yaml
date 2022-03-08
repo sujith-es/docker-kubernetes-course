@@ -12,13 +12,13 @@ steps:
 - task: AzureCLI@2
   displayName: Docker Build & Push
   inputs:
-    azureSubscription: 'aks-spn-ca'
+    azureSubscription: 'Visual Studio Premium with MSDN(2b3cea5b-bb43-41d1-8899-f56ca430e959)'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      docker build -t acrforakscluster.azurecr.io/webapp:$(tag) app-dotnet
-      az acr login -n acrforakscluster
-      docker push acrforakscluster.azurecr.io/webapp:$(tag)
+      docker build -t acrsujith.azurecr.io/webapp:$(tag) app-dotnet
+      az acr login -n acrsujith
+      docker push acrsujith.azurecr.io/webapp:$(tag)
 - task: qetza.replacetokens.replacetokens-task.replacetokens@3
   displayName: 'Replace Image TAG'
   inputs:
@@ -40,9 +40,10 @@ steps:
   displayName: Kubernetes Deploy
   inputs:
     connectionType: 'Azure Resource Manager'
-    azureSubscriptionEndpoint: 'aks-spn-ca'
-    azureResourceGroup: 'rg-aks-cluster'
-    kubernetesCluster: 'aks-cluster'
+    azureSubscriptionEndpoint: 'Visual Studio Premium with MSDN(2b3cea5b-bb43-41d1-8899-f56ca430e959)'
+    azureResourceGroup: 'aks-demo'
+    kubernetesCluster: 'aks-demo-cluster'
+    useClusterAdmin: true
     namespace: 'default'
     command: 'apply'
     useConfigurationFile: true
